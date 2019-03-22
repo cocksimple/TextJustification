@@ -55,13 +55,20 @@ public class TextJustification {
                 myText.append(word);
             } else {
                 int totalSpacesToInsert = (int) ((contentWidth - paint.measureText(myText.toString())) / paint.measureText(" "));
-                lineList.add(justifyLine(myText.toString(), totalSpacesToInsert));
-                myText.delete(0, myText.length());
+                if (!TextUtils.isEmpty(myText.toString())) {
+                    lineList.add(justifyLine(myText.toString(), totalSpacesToInsert));
+                    myText.delete(0, myText.length());
+                }
                 myText.append(word);
             }
         }
         lineList.add(myText.toString());
         return lineList;
+    }
+
+    public static boolean isChinese(String str) {
+        String reg = "[\\u4e00-\\u9fa5]+";
+        return str.matches(reg);// 根据正则判断
     }
 
     //已填入最多单词数的一行，插入对应的空格数直到该行满
